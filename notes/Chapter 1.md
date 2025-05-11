@@ -194,9 +194,166 @@ Three kings of caching systems:
 
 ## Eviction policies
 
+- FIFO
+- LIFO
+- Least Recently Used (LRU): discards least recently used
+- Most Recently Used (MRU): discards most recently used
+- Least Frequently Used (LFU): counts how often an item is used. Discards least used
+- Random Replacement (RR): random replacement
+
+### Distributed Cache
+
+- Pools RAM over multiple nodes allowing them to access other computer's RAM
+- Allows for memory limits to exceed that of a normal computer
+
+### Global Cache
+
+- There is only one cache for multiples nodes, as opposed to multiple RAM storage for multiple nodes
+
+
+### Use Cases
+
+- Database caching
+- Content Delivery Network
+- DNS caching
+- API caching
+
+**When not to**
+- When caching takes as long as accessing the data source
+- Low repetition because caching only reaps rewards when there is a repeated memory access pattern
+- When data changes often
+
+### Advantages
+
+- Reduced latency
+- Reduce database load
+- Reduce network cost
+- Increased read throughput
+
+### Examples
+- Redis
+- Amazon Elasticache
+
 # Content Delivery Network (CDN)
 
+Group of servers that are geographically distributed to improved delivery
+
+- Increases content availability and redundancy
+- Reducing bandwidth
+- Improves security
+
+## How does it work?
+
+- The origin server contains the master content while the edge servers are numerous and spread across an area
+- To reduced latency, a cached version of the content is stored across these edges
+- Once the static assets are loaded to the CDN servers, the origin is no longer used
+
+## Types
+
+### Push
+- Receive content whenever changes occur on the server
+- We are responsible for uploading directly to the CDN and rewriting URLs
+- This minimises traffic but maximises storage
+- Useful for sites with a small amount of traffic
+
+### Pull
+- Pulls new content from origin when the CDN does not have certain content
+- This requires less maintenance 
+- Useful for heavy traffic sites
+
+## Disadvantages
+
+- **Cost**: expensive, especially for high-traffic
+- **Restrictions**: some orgs and countries block CDNs
+- **Location**: if most of the users don't have a CDN in their area, it's not much use
+
+## Examples
+
+- Amazon CloudFront
+
+# Proxy
+
+- Used to filter and log requests, sometimes transforming them by removing headers or encrypting/decrypting
+
+## Types
+
+### Forward Proxy
+
+- Sits in front of a group of client machines and relays their request to the web servers
+
+**Advantages**
+- Block access to certain content
+- Facilitates geo restriction
+- Anonymity
+- Avoids browsing restrictions
+
+### Reverse Proxy
+
+- Sits in front of a group of web servers, relaying client requests to different servers
+
+**Advantages**
+- Security
+- Caching
+- SSL encryption
+- Load balancing
+- Scalability and flexibility
+
+## Load Balancer vs Revers Proxy
+
+- Load balances are only useful when we have multiple servers
+- Proxies can work with one web server
+- A reverse proxy can act as a load balancer but not vice versa
+
+## Examples
+- Nginx
+
+
 # Availability
+
+The time a system remains operational to perform its job in a specific period
+
+## Nine's Availability
+
+- Uptime (or downtime) as a percentage of time when the service is available
+
+$$
+Availability = \frac{Uptime}{(Uptime + Downtime)}
+$$
+
+- If availability, is 99.00% it's "two nines", 99.9% it's "three nines"
+
+## Availability in Sequence vs Parallel
+
+The overall availability of a system is dependent on whether in sequence or parallel
+
+### Sequence
+
+Overall availability reduces when components are in sequence
+
+$$
+Availability \space (Total) = Availability \space (Foo) * Availability \space (Bar)
+$$
+
+### Parallel
+
+Overall availability increases when components are in parallel
+
+
+$$
+Availability \space (Total) = 1 - (1 - Availability \space (Foo)) * (1 - Availability \space (Bar))
+$$
+
+### Availability vs Reliability
+
+- If a system is reliable, it is available
+- If it is available, it's not always reliable
+
+
+## High Availability vbs Fault Tolerance
+
+- Fault tolerant mean a backup system is ready to go if the main breaks 
+- High availability just means the main system will only be down for a certain percentage of time
+
 
 # Scalability
 
